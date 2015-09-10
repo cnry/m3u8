@@ -27,9 +27,9 @@ unit:
 	-@make stop-server
 
 
-documentation:
-	@cd docs && make html
-	$(OPEN_COMMAND) docs/build/html/index.html
+# documentation:
+# 	@cd docs && make html
+# 	$(OPEN_COMMAND) docs/build/html/index.html
 
 ensure-dependencies:
 	@python setup.py develop
@@ -37,5 +37,5 @@ ensure-dependencies:
 
 deps: ensure-dependencies
 
-release: documentation
+release: #documentation
 	@./.release
