@@ -12,6 +12,7 @@ import bottle
 
 playlists = abspath(join(dirname(__file__), 'playlists'))
 
+
 @route('/path/to/redirect_me')
 def simple():
     redirect('/simple.m3u8')

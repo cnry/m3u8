@@ -572,3 +572,23 @@ def mock_parser_data(m3u8_obj, data):
     data.setdefault('segments', [])
     m3u8_obj.data = data
     m3u8_obj._initialize_attributes()
+
+
+def test_dumps_segment_with_key():
+    ("Segment.dumps should render a X-KEY if present but `last_segment` is None")
+
+    key = {
+        'method': 'AES-128',
+        'uri': 'http://foo.bar/key.aes',
+        'iv': 1234,
+    }
+
+    segment = Segment(
+        uri='http://foo.bar/video1.ts',
+        duration=2,
+        base_uri='http://foo.bar',
+        key=key,
+    )
+
+    rendered = segment.dumps()
+    assert 'X-KEY' in rendered, 'X-KEY not present in {0}'.format(rendered)

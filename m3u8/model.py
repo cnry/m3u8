@@ -270,10 +270,13 @@ class M3U8(object):
             if error.errno != errno.EEXIST:
                 raise
 
-class BasePathMixin(object):
 
+class BasePathMixin(object):
     @property
     def absolute_uri(self):
+        return self.get_absolute_uri()
+
+    def get_absolute_uri(self):
         if self.uri is None:
             return None
         if parser.is_url(self.uri):
@@ -351,14 +354,18 @@ class Segment(BasePathMixin):
         self.program_date_time = program_date_time
         self.discontinuity = discontinuity
         self.cue_out = cue_out
-        self.key = Key(base_uri=base_uri,**key) if key else None
+        self.key = Key(base_uri=base_uri, **key) if key else None
 
-
-    def dumps(self, last_segment):
+    def dumps(self, last_segment=None):
         output = []
-        if last_segment and self.key != last_segment.key:
-          output.append(str(self.key))
-          output.append('\n')
+
+        if not last_segment and self.key is not None:
+            output.append(str(self.key))
+            output.append('\n')
+
+        elif last_segment and self.key != last_segment.key:
+            output.append(str(self.key))
+            output.append('\n')
 
         if self.discontinuity:
             output.append('#EXT-X-DISCONTINUITY\n')

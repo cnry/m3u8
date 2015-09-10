@@ -21,9 +21,12 @@ except ImportError:
 
 from m3u8.model import M3U8, Playlist, IFramePlaylist, Media, Segment
 from m3u8.parser import parse, is_url, ParseError
+from m3u8.version import version
 
 __all__ = ('M3U8', 'Playlist', 'IFramePlaylist', 'Media',
-           'Segment', 'loads', 'load', 'parse', 'ParseError')
+           'Segment', 'loads', 'load', 'parse', 'ParseError',
+           'version')
+
 
 def loads(content):
     '''
@@ -31,6 +34,7 @@ def loads(content):
     Raises ValueError if invalid content
     '''
     return M3U8(content)
+
 
 def load(uri):
     '''
@@ -42,9 +46,15 @@ def load(uri):
     else:
         return _load_from_file(uri)
 
+
 # Support for python3 inspired by https://github.com/szemtiv/m3u8/
 def _load_from_uri(uri):
-    resource = urlopen(uri)
+    try:
+        resource = urlopen(uri)
+    except Exception as e:
+        msg = 'Failed to retrieve uri "{0}" because:  {1}'
+        raise IOError(msg.format(uri, e))
+
     base_uri = _parsed_url(_url_for(uri))
     if PYTHON_MAJOR_VERSION < (3,):
         content = _read_python2x(resource)
@@ -52,8 +62,10 @@ def _load_from_uri(uri):
         content = _read_python3x(resource)
     return M3U8(content, base_uri=base_uri)
 
+
 def _url_for(uri):
     return urlopen(uri).geturl()
+
 
 def _parsed_url(url):
     parsed_url = url_parser.urlparse(url)
@@ -72,4 +84,3 @@ def _load_from_file(uri):
         raw_content = fileobj.read().strip()
     base_uri = os.path.dirname(uri)
     return M3U8(raw_content, base_uri=base_uri)
-
