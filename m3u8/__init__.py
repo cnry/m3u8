@@ -73,11 +73,14 @@ def _parsed_url(url):
     base_path = posixpath.normpath(parsed_url.path + '/..')
     return url_parser.urljoin(prefix, base_path)
 
+
 def _read_python2x(resource):
     return resource.read().strip()
 
+
 def _read_python3x(resource):
-    return  resource.read().decode(resource.headers.get_content_charset(failobj="utf-8"))
+    return resource.read().decode(resource.headers.get_content_charset(failobj="utf-8"))
+
 
 def _load_from_file(uri):
     with open(uri) as fileobj:
