@@ -8,15 +8,15 @@ if exists("README.rst"):
 install_reqs = [req for req in open(abspath(join(dirname(__file__), 'requirements.txt')))]
 
 setup(
-    name="m3u8",
-    author='Globo.com',
-    author_email='videos3@corp.globo.com',
-    version="0.2.7-cnry",
+    name="cnry-m3u8",
+    author='Canary Engineering Team',
+    author_email='gabriel@nacaolivre.org',
+    version="0.2.7",
     zip_safe=False,
     include_package_data=True,
     install_requires=install_reqs,
     packages=["m3u8"],
-    url="https://github.com/globocom/m3u8",
-    description="Python m3u8 parser",
+    url="https://github.com/cnry/m3u8",
+    description="Canary's fork of the python m3u8 parser by globo.com (github.com/globocom/m3u8)",
     long_description=long_description
     )

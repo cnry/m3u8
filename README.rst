@@ -5,10 +5,10 @@
     :target: https://coveralls.io/r/globocom/m3u8?branch=master
 
 
-m3u8
+cnry-m3u8
 ====
 
-Python `m3u8`_ parser.
+Canary's fork of the python `m3u8`_ parser.
 
 Documentation
 =============
